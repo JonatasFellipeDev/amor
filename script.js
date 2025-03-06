@@ -1,64 +1,76 @@
-function mostrarMensagem() {
-    const msg = document.getElementById('mensagem-secreta');
-    msg.classList.remove('hidden');
-  }
-  
-  // Efeito de corações caindo
+window.onload = function () {
   const canvas = document.getElementById('hearts');
   const ctx = canvas.getContext('2d');
-  
+
   let width = canvas.width = window.innerWidth;
   let height = canvas.height = window.innerHeight;
-  
   let hearts = [];
-  
-  function Heart() {
-    this.x = Math.random() * width;
-    this.y = Math.random() * height - height;
-    this.size = Math.random() * 5 + 5;
-    this.speedY = Math.random() * 1 + 0.5;
-    this.opacity = Math.random();
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
   }
-  
-  Heart.prototype.update = function() {
-    this.y += this.speedY;
-    if (this.y > height) {
-      this.y = 0;
-      this.x = Math.random() * width;
+
+  class Heart {
+    constructor() {
+      this.reset();
     }
-  };
-  
-  Heart.prototype.draw = function() {
-    ctx.globalAlpha = this.opacity;
-    ctx.fillStyle = 'pink';
-    ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.bezierCurveTo(this.x + 2, this.y - 3, this.x + 5, this.y + 5, this.x, this.y + 7);
-    ctx.bezierCurveTo(this.x - 5, this.y + 5, this.x - 2, this.y - 3, this.x, this.y);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-  };
-  
-  function createHearts() {
-    for (let i = 0; i < 100; i++) {
+
+    reset() {
+      this.x = random(0, width);
+      this.y = random(-height, 0);
+      this.size = random(8, 14);
+      this.speedY = random(1, 2);
+      this.opacity = random(0.5, 1);
+    }
+
+    update() {
+      this.y += this.speedY;
+      if (this.y > height) this.reset();
+    }
+
+    draw() {
+      ctx.globalAlpha = this.opacity;
+      ctx.fillStyle = 'pink';
+      ctx.beginPath();
+      const x = this.x;
+      const y = this.y;
+      const s = this.size;
+      ctx.moveTo(x, y);
+      ctx.bezierCurveTo(x + s / 2, y - s / 2, x + s, y + s / 2, x, y + s);
+      ctx.bezierCurveTo(x - s, y + s / 2, x - s / 2, y - s / 2, x, y);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function createHearts(num = 100) {
+    hearts = [];
+    for (let i = 0; i < num; i++) {
       hearts.push(new Heart());
     }
   }
-  
+
   function animate() {
     ctx.clearRect(0, 0, width, height);
-    hearts.forEach(heart => {
-      heart.update();
-      heart.draw();
+    hearts.forEach(h => {
+      h.update();
+      h.draw();
     });
     requestAnimationFrame(animate);
   }
-  
+
   createHearts();
   animate();
-  
+
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+    createHearts();
   });
-  
+
+  // Mostrar mensagem secreta
+  window.mostrarMensagem = function () {
+    const msg = document.getElementById('mensagem-secreta');
+    msg.classList.remove('hidden');
+  };
+};

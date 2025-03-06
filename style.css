@@ -1,21 +1,19 @@
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(#000000, #e6213b);
+  background: linear-gradient(#000000, #df213a);
   font-family: 'Arial', sans-serif;
   color: #fff;
   text-align: center;
-  min-height: 100vh; /* Trocar height por min-height */
-  overflow-x: hidden; /* Só esconder rolagem lateral */
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Container centralizado mas sem travar no meio da tela */
 .container {
   margin-top: 40px;
   padding: 0 20px;
 }
 
-/* Restante continua igual */
 button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -47,7 +45,6 @@ button:hover {
   to { opacity: 1; }
 }
 
-/* Canvas continua normal */
 #hearts {
   position: fixed;
   top: 0;
@@ -57,7 +54,6 @@ button:hover {
   pointer-events: none;
 }
 
-/* Galeria */
 .galeria {
   margin-top: 50px;
   padding: 20px;
@@ -68,7 +64,6 @@ button:hover {
   margin-bottom: 20px;
 }
 
-/* Fotos */
 .fotos {
   display: flex;
   flex-wrap: wrap;
@@ -90,15 +85,37 @@ button:hover {
   box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 }
 
-/* RESPONSIVIDADE: Ajustar para telas pequenas */
 @media (max-width: 600px) {
   .container {
     margin-top: 20px;
   }
+
   .galeria h2 {
     font-size: 24px;
   }
+
   .fotos img {
     max-width: 140px;
   }
+}
+#hearts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+#mensagem-secreta {
+  animation: fadeIn 2s;
+  text-align: justify;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  line-height: 1.8;
+  font-size: 18px;
+  box-shadow: 0 0 15px rgba(255, 192, 203, 0.3);
 }
